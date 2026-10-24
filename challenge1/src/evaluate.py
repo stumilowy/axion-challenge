@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
 from src.tools import get_clothes_mapping
+from pathlib import Path
 
 def evaluate_model(pipeline, X_test, y_test, model_name="model"):
     y_pred = pipeline.predict(X_test)
@@ -20,4 +21,14 @@ def evaluate_model(pipeline, X_test, y_test, model_name="model"):
     disp.plot(cmap=plt.cm.Blues, xticks_rotation=45)
     plt.title(f"Confusion Matrix - {model_name}")
     plt.tight_layout()
+
+    images_dir = Path(__file__).parent.parent / 'images'
+    images_dir.mkdir(parents=True, exist_ok=True)
+
+    plt.savefig(
+        images_dir / f'confusion-matrix-{model_name}.png',
+        edgecolor='none',
+        bbox_inches='tight',
+    )
+
     plt.show()

@@ -1,5 +1,6 @@
 
-Zaczynając od analizy danych wygenerowałem wykresy używając kilka popularnych metod dal datasetów o duzej ilości wymiarów
+Zaczynając od analizy danych wygenerowałem wykresy używając k
+ilka popularnych metod dal datasetów o duzej ilości wymiarów
 
 ### PCA
 ![PCA.png](images/PCA.png)
@@ -39,3 +40,29 @@ W celu weryfikacji tej hipotezy przetestuje dwa podejścia:
 Jeśli accuracy drugiego modelu okaże się znacząco wyższe, będzie to bezpośrednim potwierdzeniem Twojej hipotezy.
 
 
+## Wyniki
+
+![confusion-matrix-combined.png](images/confusion-matrix-combined.png)
+
+### Podsumowanie porównania modeli
+
+* **Confusion Matrix – Base:** 85,27%
+* **Confusion Matrix – Merged types:** 91,75%
+* **Całkowity wzrost accuracy:** **+6,48 p.p.**
+
+---
+
+### Analiza podgrupy (Pullover, Shirt, Coat)
+
+* **Model bazowy (średnia poprawnych predykcji):** 
+  (629 + 831 + 788) / 3 = 2248 / 3 $\approx$ **749,33**
+* **Model po połączeniu klas (Upper long):** 
+  2806 / 3 $\approx$ **935,33**
+* **Wzrost efektywności podgrupy:** ok. **24,8%**
+
+---
+
+### Wnioski i perspektywy
+
+* **Ocena hipotezy:** Choć wzrost nie okazał się bardzo duży (inaczej niż przewidywała hipoteza), jest on  **znaczący** i przełożył się na zauważalną poprawę ogólnej skuteczności modelu.
+* **Kierunek dalszych optymalizacji:** Obecny model nadal notuje największe trudności w kategorii **T-shirt/top**, często myląc ją z klasą **Upper long**. Jednak dodawanie kolejnej klasy do superklasy mija się już z celem tworzenia modelu klasyfikującego. W ten sposób można mieć jedną klasę i uzyskać 100% accuracy.
