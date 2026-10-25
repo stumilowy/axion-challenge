@@ -23,9 +23,9 @@ class Circuit:
     def run(self):
         qs_c = copy.deepcopy(self.quantum_state)
         for gate in self.gates:
-            print(qs_c.get_probability())
+            #print(qs_c.get_probability())
             self._process_gate(gate,qs_c)
-        print(qs_c.get_probability())
+        #print(qs_c.get_probability())
         return qs_c
 
 
