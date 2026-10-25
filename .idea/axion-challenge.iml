@@ -3,6 +3,8 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/challenge1" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/challenge2" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/challenge2/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="~\DataMain\development\pwr\axion\axion-challenge\.venv" jdkType="Python SDK" />
