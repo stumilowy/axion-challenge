@@ -44,53 +44,6 @@ def simulate(title, quantum_state, gates, shots=1000):
     Simulator(build_circuit(quantum_state, gates)).summary(shots)
 
 
-def measurement_collapses_superposition():
-    print_header('Pomiar niszczy superpozycję')
-
-    print('Bez pomiaru: H, H na |0> -> interferencja przywraca |0>')
-    simulator = Simulator(build_circuit(KET_0, [H([1], 1), H([1], 1)]))
-    simulator.show_state()
-    simulator.show_probabilities()
-
-    print('Z pomiarem pomiędzy: H, POMIAR, H na |0>')
-    simulator = Simulator(build_circuit(KET_0, [H([1], 1)]))
-    simulator.show_state('Stan przed pomiarem')
-    simulator.measure(1)
-    simulator.show_state('Stan po pomiarze')
-
-    # dalsza część obwodu startuje ze stanu po kolapsie
-    simulator = Simulator(build_circuit(simulator.result, [H([1], 1)]))
-    simulator.show_state('Stan po drugim H')
-    simulator.show_probabilities()
-    print('Superpozycja zniknęła przy pomiarze, więc drugie H nie wraca do |0>.')
-    print()
-
-
-def measurement_destroys_entanglement():
-    print_header('Pomiar niszczy splątanie')
-
-    simulator = Simulator(build_circuit(KET_00, [H([1], 2), CNOT()]))
-    simulator.show_state('Stan Bella przed pomiarem')
-    simulator.show_probabilities()
-
-    simulator.measure(1)
-    simulator.show_state('Stan po pomiarze q1')
-    simulator.show_probabilities()
-    print('Stan jest teraz iloczynem |a>|a> - qubity nie są już splątane,')
-    print('ale wynik q2 jest już przesądzony przez pomiar q1:')
-    print()
-    simulator.measure(2)
-
-    print('10 niezależnych powtórzeń (pomiar q1, potem q2):')
-    for _ in range(10):
-        simulator = Simulator(build_circuit(KET_00, [H([1], 2), CNOT()]))
-        simulator.run()
-        q1 = simulator.result.measure(1)
-        q2 = simulator.result.measure(2)
-        print(f'  q1 = {q1}, q2 = {q2}')
-    print()
-
-
 # jeden qubit
 simulate('X|0> = |1>', KET_0, [X([1], 1)])
 simulate('Y|0> = i|1>', KET_0, [Y([1], 1)])
@@ -111,8 +64,3 @@ simulate('Bell Ψ+: H(1), CNOT na |01>', KET_01, [H([1], 2), CNOT()])
 simulate('Bell Φ-: H(1), CNOT na |10>', KET_10, [H([1], 2), CNOT()])
 simulate('Bell Ψ-: H(1), CNOT na |11>', KET_11, [H([1], 2), CNOT()])
 simulate('CNOT na |+0> = Bell Φ+', KET_PLUS_0, [CNOT()])
-simulate('Phase kickback: CNOT|+-> = |-->', KET_PLUS_MINUS, [CNOT()])
-
-# pomiar
-measurement_collapses_superposition()
-measurement_destroys_entanglement()
