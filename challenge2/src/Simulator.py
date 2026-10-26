@@ -1,6 +1,3 @@
-import copy
-from collections import Counter
-
 import numpy as np
 
 from Circuit import Circuit
@@ -8,7 +5,6 @@ from Gates import CNOT
 
 
 class Simulator:
-    BAR_WIDTH = 30
 
     def __init__(self, circuit: Circuit):
         self.circuit = circuit
@@ -34,9 +30,6 @@ class Simulator:
             return f'{a.imag:+.3f}i'
         return f'({a.real:+.3f}{a.imag:+.3f}i)'
 
-    def _bar(self, p):
-        return '█' * round(p * self.BAR_WIDTH)
-
     def show_circuit(self):
         print('Obwód:')
         for step, gate in enumerate(self.circuit.gates, start=1):
@@ -60,35 +53,17 @@ class Simulator:
         probs = self._get_result().get_probability()
         print('Prawdopodobieństwa:')
         for i, p in enumerate(probs):
-            print(f'  |{self._bitstring(i)}>  {p * 100:6.2f}%  {self._bar(p)}')
+            print(f'  |{self._bitstring(i)}>  {p * 100:6.2f}%')
         print()
 
     def measure(self, qubit):
-        # pomiar na wyniku symulacji - kolapsuje stan, kolejne show_* pokażą stan po pomiarze
         outcome = self._get_result().measure(qubit)
         print(f'>>> Pomiar q{qubit} = {outcome}')
         print()
         return outcome
 
-    def sample(self, shots=1000):
-        # pomiar na kopiach, żeby nie niszczyć wyniku symulacji
-        result = self._get_result()
-        counts = Counter()
-        for _ in range(shots):
-            qs = copy.deepcopy(result)
-            outcome = ''.join(str(qs.measure(q)) for q in range(1, qs.n_qubits + 1))
-            counts[outcome] += 1
-        return counts
 
-    def show_histogram(self, shots=1000):
-        counts = self.sample(shots)
-        print(f'Pomiary ({shots} shotów):')
-        for outcome, count in sorted(counts.items()):
-            print(f'  |{outcome}>  {count:>5}  {self._bar(count / shots)}')
-        print()
-
-    def summary(self, shots=1000):
+    def summary(self):
         self.show_circuit()
         self.show_state()
         self.show_probabilities()
-        self.show_histogram(shots)

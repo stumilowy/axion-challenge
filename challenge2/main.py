@@ -39,9 +39,9 @@ def build_circuit(quantum_state, gates):
     return circuit
 
 
-def simulate(title, quantum_state, gates, shots=1000):
+def simulate(title, quantum_state, gates):
     print_header(title)
-    Simulator(build_circuit(quantum_state, gates)).summary(shots)
+    Simulator(build_circuit(quantum_state, gates)).summary()
 
 
 # jeden qubit
